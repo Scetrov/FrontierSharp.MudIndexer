@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class EphemeralInvItemFactory
+public class EphemeralInvItemFactory : IFactory<EphemeralInvItem>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"inventoryItemId\", \"ephemeralInvOwner\", \"quantity\", \"index\" FROM eveworld__EphemeralInvItem;";
 

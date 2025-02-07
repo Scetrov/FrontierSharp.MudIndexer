@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class GlobalStaticDataFactory
+public class GlobalStaticDataFactory : IFactory<GlobalStaticData>
 {
     public static string DefaultQuery => "SELECT \"trustedForwarder\", \"value\" FROM eveworld__GlobalStaticData;";
 

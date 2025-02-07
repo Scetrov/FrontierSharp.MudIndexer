@@ -9,8 +9,8 @@ public class MudClient(
     IHttpClientFactory clientFactory,
     HybridCache cache,
     string queryEndpoint = "https://indexer.mud.garnetchain.com/q") : IMudClient {
-    public async Task<IEnumerable<T>> Query<T>(string mudQuery, CancellationToken cancellationToken = default)
-        where T : IFactory<T>, new() {
+    public async Task<IEnumerable<T>> Query<T, TFactory>(string mudQuery, CancellationToken cancellationToken = default)
+        where TFactory : IFactory<T>, new() {
         QueryObj[] payload = [new() { address = world.Address, query = mudQuery }];
         return await cache.GetOrCreateAsync($"{world.Address}:{mudQuery}", async entry => {
             var client = clientFactory.CreateClient("MudIndexer");
@@ -42,7 +42,7 @@ public class MudClient(
                     $"Unable to parse the headers, unexpected payload.");
             }
 
-            var creatable = new T();
+            var creatable = new TFactory();
             return data?.Skip(1).Where(x => x is not null).Select(x => creatable.FromJsonNode(x!, headers))!;
         }, cancellationToken: cancellationToken);
     }

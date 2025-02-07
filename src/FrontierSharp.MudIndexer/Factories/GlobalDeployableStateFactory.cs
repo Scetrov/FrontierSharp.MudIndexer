@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class GlobalDeployableStateFactory
+public class GlobalDeployableStateFactory : IFactory<GlobalDeployableState>
 {
     public static string DefaultQuery => "SELECT \"updatedBlockNumber\", \"isPaused\", \"lastGlobalOffline\", \"lastGlobalOnline\" FROM eveworld__GlobalDeployable;";
 

@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class InventoryTableFactory
+public class InventoryTableFactory : IFactory<InventoryTable>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"capacity\" FROM eveworld__InventoryTable;";
 

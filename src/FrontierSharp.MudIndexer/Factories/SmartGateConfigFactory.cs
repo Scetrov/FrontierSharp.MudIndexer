@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class SmartGateConfigFactory
+public class SmartGateConfigFactory : IFactory<SmartGateConfig>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"systemId\" FROM eveworld__SmartGateConfigT;";
 

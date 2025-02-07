@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class CharactersConstantsFactory
+public class CharactersConstantsFactory : IFactory<CharactersConstants>
 {
     public static string DefaultQuery => "SELECT \"erc721Address\" FROM eveworld__CharactersConsta;";
 

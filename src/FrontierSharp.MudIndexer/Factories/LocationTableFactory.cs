@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class LocationTableFactory
+public class LocationTableFactory : IFactory<LocationTable>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"solarSystemId\", \"x\", \"y\", \"z\" FROM eveworld__LocationTable;";
 

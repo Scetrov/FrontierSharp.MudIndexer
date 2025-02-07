@@ -14,8 +14,9 @@ public static class FactoryCodeGenerator {
         const string factoryNamespace = "FrontierSharp.MudIndexer.Factories";
         const string tableNamespace = "FrontierSharp.MudIndexer.Tables";
 
-        var className = tableDefinition.TableName.ExpandTableName().ToPascalCase() + "Factory";
-
+        var dtoName = tableDefinition.TableName.ExpandTableName().ToPascalCase();
+        var factoryName = $"{dtoName}Factory";
+        
         // Generate DefaultQuery
         var defaultQuery = GenerateDefaultQuery(tableDefinition);
 
@@ -46,8 +47,14 @@ public static class FactoryCodeGenerator {
         var fromJsonNodeMethod = GenerateFromJsonNodeMethod(tableDefinition);
 
         // Class declaration
-        var classDeclaration = SyntaxFactory.ClassDeclaration(className)
+        var classDeclaration = SyntaxFactory.ClassDeclaration(factoryName)
             .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+            .AddBaseListTypes(
+                SyntaxFactory.SimpleBaseType(
+                    SyntaxFactory.GenericName("IFactory")
+                        .AddTypeArgumentListArguments(SyntaxFactory.ParseTypeName(dtoName))
+                )
+            )
             .AddMembers(defaultQueryProperty, fromJsonNodeMethod);
 
         // Combine namespace and class into a compilation unit
@@ -98,7 +105,7 @@ public static class FactoryCodeGenerator {
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.RequiredKeyword));
             propertyDeclarations.Add(propertyDeclaration);
         }
-
+        
         var classDeclaration = SyntaxFactory.ClassDeclaration(className)
             .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
             .AddMembers(propertyDeclarations.ToArray());

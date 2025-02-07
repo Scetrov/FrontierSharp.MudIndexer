@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class ItemTransferFactory
+public class ItemTransferFactory : IFactory<ItemTransfer>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"inventoryItemId\", \"previousOwner\", \"currentOwner\", \"quantity\", \"updatedAt\" FROM eveworld__ItemTransferOffc;";
 

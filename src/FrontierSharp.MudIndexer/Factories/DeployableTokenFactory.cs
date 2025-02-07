@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class DeployableTokenFactory
+public class DeployableTokenFactory : IFactory<DeployableToken>
 {
     public static string DefaultQuery => "SELECT \"erc721Address\" FROM eveworld__DeployableTokenT;";
 

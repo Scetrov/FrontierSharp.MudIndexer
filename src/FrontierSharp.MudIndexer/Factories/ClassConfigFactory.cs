@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class ClassConfigFactory
+public class ClassConfigFactory : IFactory<ClassConfig>
 {
     public static string DefaultQuery => "SELECT \"systemId\", \"classId\" FROM eveworld__ClassConfig;";
 

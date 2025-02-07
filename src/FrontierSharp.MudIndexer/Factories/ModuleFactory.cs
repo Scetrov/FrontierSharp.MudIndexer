@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class ModuleFactory
+public class ModuleFactory : IFactory<Module>
 {
     public static string DefaultQuery => "SELECT \"moduleId\", \"systemId\", \"moduleName\", \"doesExists\" FROM eveworld__ModuleTable;";
 

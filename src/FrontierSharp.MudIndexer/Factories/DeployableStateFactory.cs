@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class DeployableStateFactory
+public class DeployableStateFactory : IFactory<DeployableState>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"createdAt\", \"previousState\", \"currentState\", \"isValid\", \"anchoredAt\", \"updatedBlockNumber\", \"updatedBlockTime\" FROM eveworld__DeployableState;";
 

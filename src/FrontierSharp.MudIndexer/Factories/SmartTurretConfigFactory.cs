@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class SmartTurretConfigFactory
+public class SmartTurretConfigFactory : IFactory<SmartTurretConfig>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"systemId\" FROM eveworld__SmartTurretConfi;";
 

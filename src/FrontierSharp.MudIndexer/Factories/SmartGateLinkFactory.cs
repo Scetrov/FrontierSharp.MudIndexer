@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class SmartGateLinkFactory
+public class SmartGateLinkFactory : IFactory<SmartGateLink>
 {
     public static string DefaultQuery => "SELECT \"sourceGateId\", \"destinationGateId\", \"isLinked\" FROM eveworld__SmartGateLinkTab;";
 

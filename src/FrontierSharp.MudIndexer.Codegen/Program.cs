@@ -44,7 +44,7 @@ try {
         Debug.Assert(table["val_schema"] != null, nameof(table) + "[val_schema] != null");
         var (tableNamespace, tableName) = MudExtensions.DecodeTableId(table["table_id"]!.GetValue<string>());
 
-        if (!tableNamespace.Equals("eveworld")) {
+        if (tableNamespace is not "eveworld" and not "erc721deploybl" and not "erc721charactr" and not "store") {
             continue;
         }
 

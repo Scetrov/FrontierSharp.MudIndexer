@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class CharacterFactory
+public class CharacterFactory : IFactory<Character>
 {
     public static string DefaultQuery => "SELECT \"characterId\", \"characterAddress\", \"corpId\", \"createdAt\" FROM eveworld__CharactersTable;";
 

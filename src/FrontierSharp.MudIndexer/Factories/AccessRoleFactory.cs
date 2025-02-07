@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class AccessRoleFactory
+public class AccessRoleFactory : IFactory<AccessRole>
 {
     public static string DefaultQuery => "SELECT \"roleId\", \"accounts\" FROM eveworld__AccessRole;";
 

@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class EntityTypeAssociationFactory
+public class EntityTypeAssociationFactory : IFactory<EntityTypeAssociation>
 {
     public static string DefaultQuery => "SELECT \"entityType\", \"taggedEntityType\", \"isAllowed\" FROM eveworld__EntityTypeAssoci;";
 

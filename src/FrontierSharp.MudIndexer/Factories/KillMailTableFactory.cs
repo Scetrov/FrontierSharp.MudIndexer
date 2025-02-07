@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class KillMailTableFactory
+public class KillMailTableFactory : IFactory<KillMailTable>
 {
     public static string DefaultQuery => "SELECT \"killMailId\", \"killerCharacterId\", \"victimCharacterId\", \"lossType\", \"solarSystemId\", \"killTimestamp\" FROM eveworld__KillMailTable;";
 

@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class AccessEnforcementPerObjectFactory
+public class AccessEnforcementPerObjectFactory : IFactory<AccessEnforcementPerObject>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"target\", \"isEnforced\" FROM eveworld__AccessEnforcePer;";
 

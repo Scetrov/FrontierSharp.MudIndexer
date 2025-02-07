@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class EntityTypeFactory
+public class EntityTypeFactory : IFactory<EntityType>
 {
     public static string DefaultQuery => "SELECT \"typeId\", \"doesExists\", \"typeName\" FROM eveworld__EntityType;";
 

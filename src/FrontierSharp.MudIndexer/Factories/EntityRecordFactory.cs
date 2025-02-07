@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class EntityRecordFactory
+public class EntityRecordFactory : IFactory<EntityRecord>
 {
     public static string DefaultQuery => "SELECT \"entityId\", \"itemId\", \"typeId\", \"volume\", \"recordExists\" FROM eveworld__EntityRecordTabl;";
 

@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class DeployableFuelBalanceFactory
+public class DeployableFuelBalanceFactory : IFactory<DeployableFuelBalance>
 {
     public static string DefaultQuery => "SELECT \"smartObjectId\", \"fuelUnitVolume\", \"fuelConsumptionPerMinute\", \"fuelMaxCapacity\", \"fuelAmount\", \"lastUpdatedAt\" FROM eveworld__DeployableFuelBa;";
 

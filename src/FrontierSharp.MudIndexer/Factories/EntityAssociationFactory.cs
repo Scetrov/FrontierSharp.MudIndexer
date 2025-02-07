@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class EntityAssociationFactory
+public class EntityAssociationFactory : IFactory<EntityAssociation>
 {
     public static string DefaultQuery => "SELECT \"entityId\", \"moduleIds\", \"hookIds\" FROM eveworld__EntityAssociatio;";
 

@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class HookFactory
+public class HookFactory : IFactory<Hook>
 {
     public static string DefaultQuery => "SELECT \"hookId\", \"isHook\", \"systemId\", \"functionSelector\" FROM eveworld__HookTable;";
 

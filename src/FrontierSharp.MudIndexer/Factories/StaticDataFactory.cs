@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class StaticDataFactory
+public class StaticDataFactory : IFactory<StaticData>
 {
     public static string DefaultQuery => "SELECT \"entityId\", \"cid\" FROM eveworld__StaticDataTable;";
 

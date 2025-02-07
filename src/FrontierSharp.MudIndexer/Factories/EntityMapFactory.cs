@@ -2,7 +2,7 @@ namespace FrontierSharp.MudIndexer.Factories;
 using System.Text.Json.Nodes;
 using FrontierSharp.MudIndexer.Tables;
 
-public class EntityMapFactory
+public class EntityMapFactory : IFactory<EntityMap>
 {
     public static string DefaultQuery => "SELECT \"entityId\", \"taggedEntityIds\" FROM eveworld__EntityMap;";
 
