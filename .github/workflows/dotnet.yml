@@ -30,3 +30,17 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: ./src
+
+    - name: Pack NuGet Package
+      run: dotnet pack --no-build --configuration Release --output ./nupkg
+      working-directory: ./src
+
+    - name: Publish to GitHub Packages
+      run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Publish to NuGet.org (Optional)
+      run: dotnet nuget push ./nupkg/*.nupkg --source "nuget.org" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
