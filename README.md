@@ -1,6 +1,12 @@
 ﻿# FrontierSharp.MudIndexer
 
-![GitHub last commit](https://img.shields.io/github/last-commit/scetrov/FrontierSharp.MudIndexer) ![NuGet Downloads](https://img.shields.io/nuget/dt/FrontierSharp.MudIndexer)
+![GitHub last commit](https://img.shields.io/github/last-commit/scetrov/FrontierSharp.MudIndexer)
+![NuGet Downloads](https://img.shields.io/nuget/dt/FrontierSharp.MudIndexer)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/scetrov/FrontierSharp.MudIndexer/dotnet.yml)
+![GitHub issues](https://img.shields.io/github/issues/scetrov/FrontierSharp.MudIndexer)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/scetrov/FrontierSharp.MudIndexer)
+![GitHub](https://img.shields.io/github/license/scetrov/FrontierSharp.MudIndexer)
+![GitHub contributors](https://img.shields.io/github/contributors/scetrov/FrontierSharp.MudIndexer)
 
 FrontierSharp.MudIndexer is a C# library designed to fetch EVE Frontier data from the Mud indexer. This project includes various utilities and tools to facilitate data handling and testing.
 
