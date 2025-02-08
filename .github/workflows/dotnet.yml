@@ -32,15 +32,17 @@ jobs:
       working-directory: ./src
 
     - name: Pack NuGet Package
-      run: dotnet pack --no-build --configuration Release --output ./nupkg
-      working-directory: ./src
+      run: dotnet pack --configuration Release --output ./nupkg
+      working-directory: ./src/FrontierSharp.MudIndexer
 
     - name: Publish to GitHub Packages
       run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      working-directory: ./src/FrontierSharp.MudIndexer
         
     - name: Publish to NuGet.org (Optional)
       run: dotnet nuget push ./nupkg/*.nupkg --source "nuget.org" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      working-directory: ./src/FrontierSharp.MudIndexer
