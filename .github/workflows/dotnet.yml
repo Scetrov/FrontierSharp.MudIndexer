@@ -26,18 +26,21 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+    - name: Install GitVersion.Tool
+      run: dotnet tool install --global GitVersion.Tool
+
     - name: Use GitVersion to generate version
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.12
-      with:
-        useConfigFile: false
+      run: gitversion /output json /showvariable SemVer
+      env:
+        PATH: ${{ runner.tool_cache }}/dotnet:$PATH
 
     - name: Restore dependencies
       run: dotnet restore
       working-directory: ./src
       
     - name: Build
-      run: dotnet build --no-restore /p:Version=${{ steps.gitversion.outputs.semVer }}
+      run: dotnet build --no-restore /p:Version=${{ steps.gitversion.outputs.SemVer }}
       working-directory: ./src
       
     - name: Test
@@ -45,7 +48,7 @@ jobs:
       working-directory: ./src
 
     - name: Pack NuGet Package
-      run: dotnet pack --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.gitversion.outputs.semVer }}
+      run: dotnet pack --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
       working-directory: ./src/FrontierSharp.MudIndexer
 
     - name: Publish to GitHub Packages
@@ -65,9 +68,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.gitversion.outputs.semVer }}
-        release_name: Release ${{ steps.gitversion.outputs.semVer }}
+        tag_name: ${{ steps.gitversion.outputs.SemVer }}
+        release_name: Release ${{ steps.gitversion.outputs.SemVer }}
         draft: false
         prerelease: false
         body: |
-          Release notes for version ${{ steps.gitversion.outputs.semVer }}
+          Release notes for version ${{ steps.gitversion.outputs.SemVer }}
