@@ -54,7 +54,7 @@ If you would like to contribute to this project, please follow these steps:
 6. Create a new Pull Request
 
 > [!TIP]
-> Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to make your commits more readable and easier to understand. 
+> Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to make your commits more readable and easier to understand.
 
 ## License
 

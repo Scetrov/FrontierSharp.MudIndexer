@@ -11,7 +11,7 @@
         <releaseNotes>Initial release.</releaseNotes>
         <copyright>Copyright © 2025, Scetrov</copyright>
         <tags>EVEFrontier FrontierSharp Mud IndexerClient</tags>
-        <readme>README.md</readme>
+        <readme>../../README.md</readme>
         <dependencies>
             <group targetFramework="net9.0">
                 <dependency id="Microsoft.Extensions.Caching.Abstractions" version="9.0.0" />
