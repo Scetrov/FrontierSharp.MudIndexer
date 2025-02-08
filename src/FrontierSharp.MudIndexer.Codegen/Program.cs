@@ -44,9 +44,8 @@ try {
         Debug.Assert(table["val_schema"] != null, nameof(table) + "[val_schema] != null");
         var (tableNamespace, tableName) = MudExtensions.DecodeTableId(table["table_id"]!.GetValue<string>());
 
-        if (tableNamespace is not "eveworld" and not "erc721deploybl" and not "erc721charactr" and not "store") {
+        if (tableNamespace is not "eveworld" and not "erc721deploybl" and not "erc721charactr" and not "store")
             continue;
-        }
 
         var keys = table["key_names"]!.AsArray().Select(x => x!.GetValue<string>()).ToArray();
         var values = table["val_names"]!.AsArray().Select(x => x!.GetValue<string>()).ToArray();
@@ -55,8 +54,10 @@ try {
         var valSchema = SchemaEncoder.Decode(table["val_schema"]!.GetValue<string>().HexToByteArray())
             .ToArray();
 
-        var fields = keys.Select(key => new TableField { ParameterName = key, AbiType = keySchema[Array.IndexOf(keys, key)].Type }).ToList();
-        fields.AddRange(values.Select(val => new TableField { ParameterName = val, AbiType = valSchema[Array.IndexOf(values, val)].Type }));
+        var fields = keys.Select(key => new TableField
+            { ParameterName = key, AbiType = keySchema[Array.IndexOf(keys, key)].Type }).ToList();
+        fields.AddRange(values.Select(val => new TableField
+            { ParameterName = val, AbiType = valSchema[Array.IndexOf(values, val)].Type }));
 
         tables.Add(new MudTableDefinition {
             Namespace = tableNamespace,
@@ -80,17 +81,13 @@ var testClassDirectory = Path.Combine(solutionRoot, "FrontierSharp.MudIndexer.Te
 string[] outputDirectories = [dtoDirectory, factoryDirectory, testDataDirectory, testClassDirectory];
 
 foreach (var directory in outputDirectories) {
-    if (!Directory.Exists(directory)) {
-        Directory.CreateDirectory(directory);
-    }
+    if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
     var filesToDelete = Directory.GetFiles(directory);
-    
-    if (filesToDelete.Length > 0) {
-        foreach (var file in filesToDelete) {
+
+    if (filesToDelete.Length > 0)
+        foreach (var file in filesToDelete)
             File.Delete(file);
-        }
-    }
 }
 
 foreach (var table in tables) {
@@ -100,14 +97,15 @@ foreach (var table in tables) {
     var testClass = TestClassGenerator.GenerateTestClassCompilationUnit(table);
 
     if (testData.Trim().Equals("error code: 502", StringComparison.InvariantCultureIgnoreCase)) {
-        Console.WriteLine($"Error: 502 Bad Gateway when generating test data for {table.TableName}, broken table, skipping...");
+        Console.WriteLine(
+            $"Error: 502 Bad Gateway when generating test data for {table.TableName}, broken table, skipping...");
         continue;
     }
 
     var pascalCaseTableName = table.TableName.ExpandTableName().ToPascalCase();
-    
+
     Console.WriteLine("Processing {0} as {1}...", table.TableName, pascalCaseTableName);
-    
+
     var dtoPath = Path.Combine(dtoDirectory, $"{pascalCaseTableName}.cs");
     var factoryPath = Path.Combine(factoryDirectory, $"{pascalCaseTableName}Factory.cs");
     var testDataPath = Path.Combine(testDataDirectory, $"{pascalCaseTableName}.json");
@@ -115,12 +113,12 @@ foreach (var table in tables) {
 
     await File.WriteAllTextAsync(dtoPath, dto);
     await File.WriteAllTextAsync(factoryPath, factory);
-    
+
     if (JsonNode.Parse(testData)?["result"]?[0]?.AsArray().Count is null or < 1) {
-        Console.WriteLine($"Error: Table is empty, skipping testing...");
+        Console.WriteLine("Error: Table is empty, skipping testing...");
         continue;
     }
-    
+
     await File.WriteAllTextAsync(testDataPath, testData);
     await File.WriteAllTextAsync(testClassPath, testClass);
 }

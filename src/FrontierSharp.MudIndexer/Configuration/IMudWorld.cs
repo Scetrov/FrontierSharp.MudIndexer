@@ -1,5 +1,5 @@
 ﻿namespace FrontierSharp.MudIndexer;
 
 public interface IMudWorld {
-    string Address { get;  }
+    string Address { get; }
 }

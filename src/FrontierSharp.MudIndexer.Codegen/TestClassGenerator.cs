@@ -13,7 +13,7 @@ public class TestClassGenerator {
             "FrontierSharp.MudIndexer.Factories",
             "Shouldly",
             "Xunit",
-            "Xunit.Abstractions",
+            "Xunit.Abstractions"
         };
 
         var usings = usingDirectives.Select(x => SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(x)));
@@ -25,7 +25,7 @@ public class TestClassGenerator {
         return compilationUnit.NormalizeWhitespace().ToFullString();
     }
 
-    static FileScopedNamespaceDeclarationSyntax GenerateTestClass(string className) {
+    private static FileScopedNamespaceDeclarationSyntax GenerateTestClass(string className) {
         var namespaceDeclaration = SyntaxFactory
             .FileScopedNamespaceDeclaration(SyntaxFactory.ParseName("FrontierSharp.MudIndexer.Tests.FactoryTests"))
             .NormalizeWhitespace();
@@ -82,15 +82,12 @@ public class TestClassGenerator {
                             SyntaxFactory.VariableDeclarator(
                                 SyntaxFactory.Identifier("_output")))))
             .WithModifiers(
-                SyntaxFactory.TokenList(
-                    new[] {
-                        SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
-                        SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword)
-                    }));
+                SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
+                    SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword)));
         return fieldDeclaration;
     }
 
-    static ExpressionStatementSyntax GenerateLogCall() {
+    private static ExpressionStatementSyntax GenerateLogCall() {
         return SyntaxFactory.ExpressionStatement(
             SyntaxFactory.InvocationExpression(
                     SyntaxFactory.MemberAccessExpression(
@@ -109,8 +106,7 @@ public class TestClassGenerator {
         );
     }
 
-
-    static MethodDeclarationSyntax GenerateFromJsonNodeMethod(string className) {
+    private static MethodDeclarationSyntax GenerateFromJsonNodeMethod(string className) {
         // Create the [Theory] attribute
         var theoryAttribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName("Theory"));
 
@@ -137,12 +133,14 @@ public class TestClassGenerator {
             SyntaxFactory.Parameter(SyntaxFactory.Identifier("headers"))
                 .WithType(SyntaxFactory.ParseTypeName("JsonArray")),
             SyntaxFactory.Parameter(SyntaxFactory.Identifier("data"))
-                .WithType(SyntaxFactory.ParseTypeName("string")),
+                .WithType(SyntaxFactory.ParseTypeName("string"))
         };
 
         // Create the body of the method
-        StatementSyntax[] statementSyntax =
-            [GenerateLogCall(), GenerateSystemUnderTestStatement(className), GenerateLambdaStatement(), GenerateShouldNotBeNull()];
+        StatementSyntax[] statementSyntax = [
+            GenerateLogCall(), GenerateSystemUnderTestStatement(className), GenerateLambdaStatement(),
+            GenerateShouldNotBeNull()
+        ];
 
         // Create the method declaration
         return SyntaxFactory.MethodDeclaration(
@@ -155,7 +153,7 @@ public class TestClassGenerator {
             .WithBody(SyntaxFactory.Block(statementSyntax));
     }
 
-    static StatementSyntax GenerateSystemUnderTestStatement(string className) {
+    private static StatementSyntax GenerateSystemUnderTestStatement(string className) {
         // var factory = new AccessEnforcementPerObjectFactory();
         return SyntaxFactory.LocalDeclarationStatement(
             SyntaxFactory.VariableDeclaration(SyntaxFactory.IdentifierName("var"))
@@ -168,7 +166,7 @@ public class TestClassGenerator {
         );
     }
 
-    static StatementSyntax GenerateLambdaStatement() {
+    private static StatementSyntax GenerateLambdaStatement() {
         return SyntaxFactory.LocalDeclarationStatement(
             SyntaxFactory.VariableDeclaration(SyntaxFactory.IdentifierName("var"))
                 .AddVariables(SyntaxFactory.VariableDeclarator("node")
@@ -206,7 +204,7 @@ public class TestClassGenerator {
         );
     }
 
-    static StatementSyntax GenerateShouldNotBeNull() {
+    private static StatementSyntax GenerateShouldNotBeNull() {
         // node.ShouldNotBeNull();
         return SyntaxFactory.ExpressionStatement(
             SyntaxFactory.InvocationExpression(
@@ -219,7 +217,7 @@ public class TestClassGenerator {
         );
     }
 
-    static ClassDeclarationSyntax GenerateTestDataClass(string className) {
+    private static ClassDeclarationSyntax GenerateTestDataClass(string className) {
         // Create the constructor
         var constructor = SyntaxFactory.ConstructorDeclaration($"{className}TestData")
             .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))

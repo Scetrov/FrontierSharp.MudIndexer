@@ -4,7 +4,7 @@ using FrontierSharp.MudIndexer.Tables;
 
 public class OwnersFactory : IFactory<Owners>
 {
-    public static string DefaultQuery => "SELECT \"tokenId\", \"owner\" FROM erc721deploybl__Owners;";
+    public static string DefaultQuery => "SELECT \"tokenId\", \"owner\" FROM erc721charactr__Owners;";
 
     public Owners FromJsonNode(JsonNode node, JsonArray headers) => new Owners
     {

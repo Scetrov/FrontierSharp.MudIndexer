@@ -37,10 +37,9 @@ public class MudClient(
                 .ToArray();
             var headers = data?.First()?.AsArray();
 
-            if (headers is null) {
+            if (headers is null)
                 throw new InvalidOperationException(
-                    $"Unable to parse the headers, unexpected payload.");
-            }
+                    "Unable to parse the headers, unexpected payload.");
 
             var creatable = new TFactory();
             return data?.Skip(1).Where(x => x is not null).Select(x => creatable.FromJsonNode(x!, headers))!;

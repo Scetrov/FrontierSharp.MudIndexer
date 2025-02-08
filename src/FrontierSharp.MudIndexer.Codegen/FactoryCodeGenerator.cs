@@ -10,13 +10,21 @@ using Microsoft.CodeAnalysis.Formatting;
 namespace FrontierSharp.MudIndexer.Codegen;
 
 public static class FactoryCodeGenerator {
+    private static readonly Dictionary<string, string[]> ExcludedFields = new() {
+        { "SmartGateConfigT", ["maxDistance"] },
+        { "InventoryItemTab", ["stateUpdate"] },
+        { "EphemeralInvItem", ["stateUpdate"] },
+        { "EphemeralInvTabl", ["items"] },
+        { "InventoryTable", ["usedCapacity", "items"] }
+    };
+
     public static string GenerateFactory(MudTableDefinition tableDefinition) {
         const string factoryNamespace = "FrontierSharp.MudIndexer.Factories";
         const string tableNamespace = "FrontierSharp.MudIndexer.Tables";
 
         var dtoName = tableDefinition.TableName.ExpandTableName().ToPascalCase();
         var factoryName = $"{dtoName}Factory";
-        
+
         // Generate DefaultQuery
         var defaultQuery = GenerateDefaultQuery(tableDefinition);
 
@@ -65,14 +73,6 @@ public static class FactoryCodeGenerator {
         return compilationUnit.ToFullString();
     }
 
-    private static readonly Dictionary<string, string[]> ExcludedFields = new() {
-        { "SmartGateConfigT", ["maxDistance"] },
-        { "InventoryItemTab", ["stateUpdate"] },
-        { "EphemeralInvItem", ["stateUpdate"] },
-        { "EphemeralInvTabl", ["items"] },
-        { "InventoryTable", ["usedCapacity", "items"] },
-    };
-
     private static string GenerateDefaultQuery(MudTableDefinition tableDefinition) {
         var excludedFields = ExcludedFields.GetValueOrDefault(tableDefinition.TableName, []);
         var fields = tableDefinition.Fields.Where(x => !excludedFields.Contains(x.ParameterName))
@@ -105,7 +105,7 @@ public static class FactoryCodeGenerator {
                 .AddModifiers(SyntaxFactory.Token(SyntaxKind.RequiredKeyword));
             propertyDeclarations.Add(propertyDeclaration);
         }
-        
+
         var classDeclaration = SyntaxFactory.ClassDeclaration(className)
             .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
             .AddMembers(propertyDeclarations.ToArray());
@@ -125,11 +125,10 @@ public static class FactoryCodeGenerator {
 
     private static FileScopedNamespaceDeclarationSyntax OptionallyAddSystemNumerics(MudTableDefinition tableDefinition,
         FileScopedNamespaceDeclarationSyntax namespaceDeclaration) {
-        if (tableDefinition.Fields.Any(x => x.GetCSharpType() == "BigInteger")) {
+        if (tableDefinition.Fields.Any(x => x.GetCSharpType() == "BigInteger"))
             namespaceDeclaration =
                 namespaceDeclaration.AddUsings(
                     SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Numerics")));
-        }
 
         return namespaceDeclaration;
     }
@@ -181,9 +180,9 @@ public static class FactoryCodeGenerator {
         return method;
     }
 
-    static IEnumerable<ExpressionSyntax> GenerateAssignments(MudTableDefinition tableDefinition) {
+    private static IEnumerable<ExpressionSyntax> GenerateAssignments(MudTableDefinition tableDefinition) {
         var excludedFields = ExcludedFields.GetValueOrDefault(tableDefinition.TableName, []);
-        foreach (var property in tableDefinition.Fields.Where(x => !excludedFields.Contains(x.ParameterName))) {
+        foreach (var property in tableDefinition.Fields.Where(x => !excludedFields.Contains(x.ParameterName)))
             yield return SyntaxFactory.AssignmentExpression(
                 SyntaxKind.SimpleAssignmentExpression,
                 SyntaxFactory.IdentifierName(GetFieldNameAsPascalCase(tableDefinition, property)),
@@ -210,7 +209,6 @@ public static class FactoryCodeGenerator {
                     )
                 )
             );
-        }
     }
 
 
