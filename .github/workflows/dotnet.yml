@@ -26,21 +26,24 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-    - name: Install GitVersion.Tool
+    - name: Install GitVersion
       run: dotnet tool install --global GitVersion.Tool
 
-    - name: Use GitVersion to generate version
-      id: gitversion
-      run: gitversion /output json /showvariable SemVer
-      env:
-        PATH: ${{ runner.tool_cache }}/dotnet:$PATH
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v3.1.11
+      with:
+        versionSpec: '0.1.x'
+
+    - name: Determine Version
+      id: version_step # step id used as reference for output values
+      uses: gittools/actions/gitversion/execute@v3.1.11
 
     - name: Restore dependencies
       run: dotnet restore
       working-directory: ./src
       
     - name: Build
-      run: dotnet build --no-restore /p:Version=${{ steps.gitversion.outputs.SemVer }}
+      run: dotnet build --no-restore /p:Version=${{ steps.version_step.outputs.SemVer }}
       working-directory: ./src
       
     - name: Test
@@ -48,7 +51,7 @@ jobs:
       working-directory: ./src
 
     - name: Pack NuGet Package
-      run: dotnet pack --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
+      run: dotnet pack --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.version_step.outputs.SemVer }}
       working-directory: ./src/FrontierSharp.MudIndexer
 
     - name: Publish to GitHub Packages
@@ -68,9 +71,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.gitversion.outputs.SemVer }}
-        release_name: Release ${{ steps.gitversion.outputs.SemVer }}
+        tag_name: ${{ steps.version_step.outputs.SemVer }}
+        release_name: Release ${{ steps.version_step.outputs.SemVer }}
         draft: false
         prerelease: false
         body: |
-          Release notes for version ${{ steps.gitversion.outputs.SemVer }}
+          Release notes for version ${{ steps.version_step.outputs.SemVer }}
