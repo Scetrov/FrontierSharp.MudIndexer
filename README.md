@@ -26,12 +26,30 @@ nuget install FrontierSharp.MudIndexer
 
 ## Usage
 
-Here is an example of how to use FrontierSharp.MudIndexer in your project:
+Here is an example of how to use `FrontierSharp.MudIndexer` in your project:
 
 ```csharp
 using FrontierSharp.MudIndexer;
+using FrontierSharp.MudIndexer.Factories;
+using FrontierSharp.MudIndexer.Tables;
+using Microsoft.Extensions.DependencyInjection;
+using ZiggyCreatures.Caching.Fusion;
 
-// Your code here
+var services = new ServiceCollection();
+
+services.AddHttpClient();
+services.AddFusionCache().AsHybridCache();
+services.AddScoped<IMudWorld, EveFrontierStillness>();
+services.AddScoped<IMudClient, MudClient>();
+
+var provider = services.BuildServiceProvider();
+var client = provider.GetRequiredService<IMudClient>();
+
+var deployables = await client.Query<DeployableState, DeployableStateFactory>(DeployableStateFactory.DefaultQuery, new CancellationToken());
+
+foreach (var d in deployables) {
+  Console.WriteLine($"{d.SmartObjectId}: State = {d.CurrentState}, {DateTimeOffset.FromUnixTimeSeconds(Int64.Parse(d.AnchoredAt))}");
+}
 ```
 
 ## Building the Project
