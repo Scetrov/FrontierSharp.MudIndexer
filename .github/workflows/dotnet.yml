@@ -36,13 +36,18 @@ jobs:
     - name: Determine Version
       id: version_step # step id used as reference for output values
       uses: gittools/actions/gitversion/execute@v3.1.11
+      with: 
+        updateAssemblyInfo: true
+        updateAssemblyInfoFilename: 'src/FrontierSharp.MudIndexer/Properties/AssemblyInfo.cs'
+        useConfigFile: true
+        configFilePath: VersionConfig.yml
 
     - name: Restore dependencies
       run: dotnet restore
       working-directory: ./src
       
     - name: Build
-      run: dotnet build --no-restore /p:Version=${{ steps.version_step.outputs.SemVer }}
+      run: dotnet build --no-restore /p:Version=${{ steps.version_step.outputs.FullSemVer }}
       working-directory: ./src
       
     - name: Test
@@ -50,7 +55,7 @@ jobs:
       working-directory: ./src
 
     - name: Pack NuGet Package
-      run: dotnet pack --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.version_step.outputs.SemVer }}
+      run: dotnet pack --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.version_step.outputs.FullSemVer }}
       working-directory: ./src/FrontierSharp.MudIndexer
 
     - name: Publish to GitHub Packages
@@ -70,9 +75,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.version_step.outputs.SemVer }}
-        release_name: Release ${{ steps.version_step.outputs.SemVer }}
+        tag_name: ${{ steps.version_step.outputs.FullSemVer }}
+        release_name: Release ${{ steps.version_step.outputs.FullSemVer }}
         draft: false
         prerelease: false
         body: |
-          Release notes for version ${{ steps.version_step.outputs.SemVer }}
+          Release notes for version ${{ steps.version_step.outputs.FullSemVer }}
