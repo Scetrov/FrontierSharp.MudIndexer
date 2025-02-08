@@ -37,8 +37,6 @@ jobs:
       id: version_step # step id used as reference for output values
       uses: gittools/actions/gitversion/execute@v3.1.11
       with: 
-        updateAssemblyInfo: true
-        updateAssemblyInfoFilename: 'src/FrontierSharp.MudIndexer/Properties/AssemblyInfo.cs'
         useConfigFile: true
         configFilePath: VersionConfig.yml
 
