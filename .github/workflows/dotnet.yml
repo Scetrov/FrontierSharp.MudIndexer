@@ -27,12 +27,9 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - name: Install GitVersion
-      run: dotnet tool install --global GitVersion.Tool
-
-    - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v3.1.11
       with:
-        versionSpec: '0.1.x'
+        versionSpec: '6.x.x'
 
     - name: Determine Version
       id: version_step # step id used as reference for output values
