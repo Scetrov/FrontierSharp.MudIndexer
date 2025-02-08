@@ -48,7 +48,7 @@ var client = provider.GetRequiredService<IMudClient>();
 var deployables = await client.Query<DeployableState, DeployableStateFactory>(DeployableStateFactory.DefaultQuery, new CancellationToken());
 
 foreach (var d in deployables) {
-  Console.WriteLine($"{d.SmartObjectId}: State = {d.CurrentState}, {DateTimeOffset.FromUnixTimeSeconds(Int64.Parse(d.AnchoredAt))}");
+  Console.WriteLine($"{d.SmartObjectId}: State = {d.CurrentState}, {d.AnchoredAt}");
 }
 ```
 

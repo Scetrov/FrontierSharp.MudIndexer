@@ -5,4 +5,5 @@ public class EphemeralInvItem {
     public required string EphemeralInvOwner { get; set; }
     public required string Quantity { get; set; }
     public required string Index { get; set; }
+    public required string StateUpdate { get; set; }
 }

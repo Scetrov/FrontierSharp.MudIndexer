@@ -11,11 +11,8 @@ namespace FrontierSharp.MudIndexer.Codegen;
 
 public static class FactoryCodeGenerator {
     private static readonly Dictionary<string, string[]> ExcludedFields = new() {
-        { "SmartGateConfigT", ["maxDistance"] },
-        { "InventoryItemTab", ["stateUpdate"] },
-        { "EphemeralInvItem", ["stateUpdate"] },
         { "EphemeralInvTabl", ["items"] },
-        { "InventoryTable", ["usedCapacity", "items"] }
+        { "InventoryTable", ["usedCapacity", "items"] },
     };
 
     public static string GenerateFactory(MudTableDefinition tableDefinition) {
