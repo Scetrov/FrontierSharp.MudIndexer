@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>FrontierSharp.MudIndexer</id>
+        <version>0.1.0</version>
+        <authors>Scetrov</authors>
+        <owners>Scetrov</owners>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <description>A HTTP client for the Mud Indexer</description>
+        <releaseNotes>Initial release.</releaseNotes>
+        <copyright>Copyright © 2025, Scetrov</copyright>
+        <tags>EVEFrontier FrontierSharp Mud IndexerClient</tags>
+        <readme>README.md</readme>
+        <dependencies>
+            <group targetFramework="net9.0">
+                <dependency id="Microsoft.Extensions.Caching.Abstractions" version="9.0.0" />
+                <dependency id="Microsoft.Extensions.Http" version="9.0.0" />
+                <dependency id="Nethereum.Mud" version="4.27.1" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="README.md" />
+        <file src="bin\Release\net9.0\FrontierSharp.MudIndexer.dll" target="lib\net9.0" />
+        <file src="bin\Release\net9.0\FrontierSharp.MudIndexer.pdb" target="lib\net9.0" />
+    </files>
+</package>
