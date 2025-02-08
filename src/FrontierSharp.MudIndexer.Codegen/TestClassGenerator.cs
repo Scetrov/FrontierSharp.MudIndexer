@@ -7,12 +7,13 @@ namespace FrontierSharp.MudIndexer.Codegen;
 public class TestClassGenerator {
     public static string GenerateTestClassCompilationUnit(MudTableDefinition tableDefinition) {
         var targetClassName = tableDefinition.TableName.ExpandTableName().ToPascalCase();
-        
+
         var usingDirectives = new[] {
             "System.Text.Json.Nodes",
             "FrontierSharp.MudIndexer.Factories",
             "Shouldly",
-            "Xunit"
+            "Xunit",
+            "Xunit.Abstractions",
         };
 
         var usings = usingDirectives.Select(x => SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(x)));
@@ -20,7 +21,7 @@ public class TestClassGenerator {
         var compilationUnit = SyntaxFactory.CompilationUnit()
             .AddUsings(usings.ToArray())
             .AddMembers(GenerateTestClass(targetClassName));
-        
+
         return compilationUnit.NormalizeWhitespace().ToFullString();
     }
 
@@ -29,15 +30,85 @@ public class TestClassGenerator {
             .FileScopedNamespaceDeclaration(SyntaxFactory.ParseName("FrontierSharp.MudIndexer.Tests.FactoryTests"))
             .NormalizeWhitespace();
 
-        var classDeclaration = SyntaxFactory.ClassDeclaration($"{className}Tests")
+        var testClassName = $"{className}Tests";
+        var classDeclaration = SyntaxFactory.ClassDeclaration(testClassName)
             .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
             .AddMembers(
+                GenerateOutputHelper(),
+                GenerateConstructor(testClassName),
                 GenerateFromJsonNodeMethod(className),
                 GenerateTestDataClass(className)
             );
 
         return namespaceDeclaration.AddMembers(classDeclaration);
     }
+
+    private static ConstructorDeclarationSyntax GenerateConstructor(string className) {
+        return SyntaxFactory.ConstructorDeclaration(className)
+            .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
+            .WithParameterList(
+                SyntaxFactory.ParameterList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.Parameter(SyntaxFactory.Identifier("output"))
+                            .WithType(SyntaxFactory.IdentifierName("ITestOutputHelper"))
+                    )
+                )
+            )
+            .WithBody(
+                SyntaxFactory.Block(
+                    SyntaxFactory.SingletonList<StatementSyntax>(
+                        SyntaxFactory.ExpressionStatement(
+                            SyntaxFactory.AssignmentExpression(
+                                SyntaxKind.SimpleAssignmentExpression,
+                                SyntaxFactory.MemberAccessExpression(
+                                    SyntaxKind.SimpleMemberAccessExpression,
+                                    SyntaxFactory.ThisExpression(),
+                                    SyntaxFactory.IdentifierName("_output")
+                                ),
+                                SyntaxFactory.IdentifierName("output")
+                            )
+                        )
+                    )
+                )
+            );
+    }
+
+    private static FieldDeclarationSyntax GenerateOutputHelper() {
+        var fieldDeclaration = SyntaxFactory.FieldDeclaration(
+                SyntaxFactory.VariableDeclaration(
+                        SyntaxFactory.IdentifierName("ITestOutputHelper"))
+                    .WithVariables(
+                        SyntaxFactory.SingletonSeparatedList(
+                            SyntaxFactory.VariableDeclarator(
+                                SyntaxFactory.Identifier("_output")))))
+            .WithModifiers(
+                SyntaxFactory.TokenList(
+                    new[] {
+                        SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
+                        SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword)
+                    }));
+        return fieldDeclaration;
+    }
+
+    static ExpressionStatementSyntax GenerateLogCall() {
+        return SyntaxFactory.ExpressionStatement(
+            SyntaxFactory.InvocationExpression(
+                    SyntaxFactory.MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        SyntaxFactory.IdentifierName("_output"),
+                        SyntaxFactory.IdentifierName("WriteLine")))
+                .WithArgumentList(
+                    SyntaxFactory.ArgumentList(
+                        SyntaxFactory.SingletonSeparatedList(
+                            SyntaxFactory.Argument(
+                                SyntaxFactory.IdentifierName("data")
+                            )
+                        )
+                    )
+                )
+        );
+    }
+
 
     static MethodDeclarationSyntax GenerateFromJsonNodeMethod(string className) {
         // Create the [Theory] attribute
@@ -71,7 +142,7 @@ public class TestClassGenerator {
 
         // Create the body of the method
         StatementSyntax[] statementSyntax =
-            [GenerateSystemUnderTestStatement(className), GenerateLambdaStatement(), GenerateShouldNotBeNull()];
+            [GenerateLogCall(), GenerateSystemUnderTestStatement(className), GenerateLambdaStatement(), GenerateShouldNotBeNull()];
 
         // Create the method declaration
         return SyntaxFactory.MethodDeclaration(
