@@ -9,12 +9,12 @@ public class DeployableStateFactory : IFactory<DeployableState>
     public DeployableState FromJsonNode(JsonNode node, JsonArray headers) => new DeployableState
     {
         SmartObjectId = node.GetValueFor<string>("SmartObjectId", headers),
-        CreatedAt = node.GetValueFor<string>("CreatedAt", headers),
+        CreatedAt = node.GetValueFor<DateTimeOffset>("CreatedAt", headers),
         PreviousState = node.GetValueFor<byte>("PreviousState", headers),
         CurrentState = node.GetValueFor<byte>("CurrentState", headers),
         IsValid = node.GetValueFor<bool>("IsValid", headers),
-        AnchoredAt = node.GetValueFor<string>("AnchoredAt", headers),
+        AnchoredAt = node.GetValueFor<DateTimeOffset>("AnchoredAt", headers),
         UpdatedBlockNumber = node.GetValueFor<string>("UpdatedBlockNumber", headers),
-        UpdatedBlockTime = node.GetValueFor<string>("UpdatedBlockTime", headers)
+        UpdatedBlockTime = node.GetValueFor<DateTimeOffset>("UpdatedBlockTime", headers)
     };
 }

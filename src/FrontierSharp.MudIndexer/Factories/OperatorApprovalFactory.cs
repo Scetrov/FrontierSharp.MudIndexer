@@ -4,7 +4,7 @@ using FrontierSharp.MudIndexer.Tables;
 
 public class OperatorApprovalFactory : IFactory<OperatorApproval>
 {
-    public static string DefaultQuery => "SELECT \"owner\", \"operator\", \"approved\" FROM erc721deploybl__OperatorApproval;";
+    public static string DefaultQuery => "SELECT \"owner\", \"operator\", \"approved\" FROM erc721charactr__OperatorApproval;";
 
     public OperatorApproval FromJsonNode(JsonNode node, JsonArray headers) => new OperatorApproval
     {

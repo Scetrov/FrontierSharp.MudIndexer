@@ -25,6 +25,7 @@ public static class CreatableExtensions {
 
         if (typeof(T) == typeof(byte[])) return (T)(object)valueNode.GetValue<string>().HexStringToByteArray();
         if (typeof(T) == typeof(IEnumerable<string>)) return (T)valueNode.AsArray().Select(x => x!.GetValue<string>());
+        if (typeof(T) == typeof(DateTimeOffset)) return (T)(object)DateTimeOffset.FromUnixTimeSeconds(long.Parse(valueNode.GetValue<string>()));
         if (typeof(T) != typeof(string) && valueNode.GetValueKind() == JsonValueKind.String)
             return (T)Convert.ChangeType(valueNode.GetValue<string>(), typeof(T));
         return valueNode.GetValue<T>();

@@ -11,6 +11,6 @@ public class CharacterFactory : IFactory<Character>
         CharacterId = node.GetValueFor<string>("CharacterId", headers),
         CharacterAddress = node.GetValueFor<string>("CharacterAddress", headers),
         CorpId = node.GetValueFor<string>("CorpId", headers),
-        CreatedAt = node.GetValueFor<string>("CreatedAt", headers)
+        CreatedAt = node.GetValueFor<DateTimeOffset>("CreatedAt", headers)
     };
 }

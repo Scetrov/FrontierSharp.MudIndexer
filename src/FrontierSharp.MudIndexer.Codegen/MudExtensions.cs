@@ -54,6 +54,12 @@ public static class MudExtensions {
 
     public static string GetCSharpType(this TableField tableField) {
         var abiType = tableField.AbiType;
+        var parameterName = tableField.ParameterName;
+        
+        if (abiType == "uint256" && parameterName is "createdAt" or "anchoredAt" or "updatedAt" or "lastUpdatedAt" or "updatedBlockTime") {
+            return "DateTimeOffset";
+        }
+        
         return abiType.EndsWith("[]")
             ? $"IEnumerable<{CSharpType(abiType.Remove(abiType.Length - 2))}>"
             : CSharpType(abiType);

@@ -5,5 +5,5 @@ public class ItemTransfer {
     public required string PreviousOwner { get; set; }
     public required string CurrentOwner { get; set; }
     public required string Quantity { get; set; }
-    public required string UpdatedAt { get; set; }
+    public required DateTimeOffset UpdatedAt { get; set; }
 }

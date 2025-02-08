@@ -13,6 +13,6 @@ public class ItemTransferFactory : IFactory<ItemTransfer>
         PreviousOwner = node.GetValueFor<string>("PreviousOwner", headers),
         CurrentOwner = node.GetValueFor<string>("CurrentOwner", headers),
         Quantity = node.GetValueFor<string>("Quantity", headers),
-        UpdatedAt = node.GetValueFor<string>("UpdatedAt", headers)
+        UpdatedAt = node.GetValueFor<DateTimeOffset>("UpdatedAt", headers)
     };
 }

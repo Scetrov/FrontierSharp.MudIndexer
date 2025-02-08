@@ -5,5 +5,5 @@ public class DeployableFuelBalance {
     public required string FuelConsumptionPerMinute { get; set; }
     public required string FuelMaxCapacity { get; set; }
     public required string FuelAmount { get; set; }
-    public required string LastUpdatedAt { get; set; }
+    public required DateTimeOffset LastUpdatedAt { get; set; }
 }

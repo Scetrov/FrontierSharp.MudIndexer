@@ -13,6 +13,6 @@ public class DeployableFuelBalanceFactory : IFactory<DeployableFuelBalance>
         FuelConsumptionPerMinute = node.GetValueFor<string>("FuelConsumptionPerMinute", headers),
         FuelMaxCapacity = node.GetValueFor<string>("FuelMaxCapacity", headers),
         FuelAmount = node.GetValueFor<string>("FuelAmount", headers),
-        LastUpdatedAt = node.GetValueFor<string>("LastUpdatedAt", headers)
+        LastUpdatedAt = node.GetValueFor<DateTimeOffset>("LastUpdatedAt", headers)
     };
 }
